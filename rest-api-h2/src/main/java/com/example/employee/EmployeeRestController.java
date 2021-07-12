@@ -3,9 +3,11 @@ package com.example.employee;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
+@Validated
 @RequestMapping("/webapi")
 public class EmployeeRestController {
 
@@ -33,7 +37,7 @@ public class EmployeeRestController {
 	// ---------------------- crud: READ (by Id) ---------------------------------
 	// ---------------------------------------------------------------------------
 	@GetMapping("/getEmployee/{id}")
-	public Employee findById(@PathVariable int id) {
+	public Employee findById(@PathVariable @Min(1) int id) {
 
 		Optional<Employee> employeeFound = employeeRepository.findById(id);
 
@@ -48,7 +52,7 @@ public class EmployeeRestController {
 	// ---------------------- crud: DELETE (by Id) -------------------------------
 	// ----------------------------------------------------------------------------
 	@DeleteMapping("/deleteEmployee/{id}")
-	public void deleteEmployee(@PathVariable int id) {
+	public void deleteEmployee(@PathVariable @Min(1) int id) {
 
 		Optional<Employee> employeeFound = employeeRepository.findById(id);
 
@@ -64,14 +68,13 @@ public class EmployeeRestController {
 	@PostMapping(path = "/addEmployee", consumes = "application/json")
 	public void addEmployee(@Valid @RequestBody Employee employee) {
 
-		// System.out.println(book);
 		employeeRepository.save(employee);
 	}
 
 	// ---------------------- crud: UPADATE (by Id) -------------------------------
 	// ----------------------------------------------------------------------------
 	@PutMapping("/updateEmployee/{id}")
-	public void updateEmployee(@Valid @RequestBody Employee employee, @PathVariable int id) {
+	public void updateEmployee(@Valid @RequestBody Employee employee, @PathVariable @Min(1) int id) {
 
 		Optional<Employee> employeeFound = employeeRepository.findById(id);
 
