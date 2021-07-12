@@ -15,7 +15,7 @@
 	<name>spring-postgresql-swagger</name>
 	<description>Demo project for Spring Boot (PostgreSQL, Swagger)</description>
 	<properties>
-		<java.version>11</java.version>
+<!-- 		<java.version>11</java.version> -->
 	</properties>
 	<dependencies>
 	
