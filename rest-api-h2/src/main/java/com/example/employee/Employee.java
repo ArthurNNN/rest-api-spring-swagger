@@ -5,6 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table
@@ -12,12 +17,26 @@ public class Employee {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	private int id;
+	
+    @NotBlank(message = "Name is mandatory")
+	@Size(min=2, max=30)
 	public String name;
+    
+    @NotBlank(message = "Surname is mandatory")
+	@Size(min=2, max=30)
 	public String surname;
+    
+	@NotNull
+	@Min(0)
+	@Max(130)
 	public int age;
+	
+	@NotBlank(message = "Email is mandatory")
 	public String email;
+	
+	@Min(0)
+	@Max(1000000)
 	public double monthSalary;
 
 	public Employee() {

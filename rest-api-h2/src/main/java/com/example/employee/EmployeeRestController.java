@@ -2,7 +2,10 @@ package com.example.employee;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,17 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/webapi")
 public class EmployeeRestController {
 
 	@Autowired
 	EmployeeRepository employeeRepository;
-	
-	@GetMapping("/")
-	public String getHome() {
-		return "home.html";
-	}
-	
 
 	// ---------------------- crud: READ -------------------------------------------
 	// -----------------------------------------------------------------------------
@@ -65,7 +62,7 @@ public class EmployeeRestController {
 	// ---------------------- crud: CREATE (by Id) -------------------------------
 	// ---------------------------------------------------------------------------
 	@PostMapping(path = "/addEmployee", consumes = "application/json")
-	public void insertEmployee(@RequestBody Employee employee) {
+	public void addEmployee(@Valid @RequestBody Employee employee) {
 
 		// System.out.println(book);
 		employeeRepository.save(employee);
@@ -74,7 +71,7 @@ public class EmployeeRestController {
 	// ---------------------- crud: UPADATE (by Id) -------------------------------
 	// ----------------------------------------------------------------------------
 	@PutMapping("/updateEmployee/{id}")
-	public void upadateEmployee(@RequestBody Employee employee, @PathVariable int id) {
+	public void updateEmployee(@Valid @RequestBody Employee employee, @PathVariable int id) {
 
 		Optional<Employee> employeeFound = employeeRepository.findById(id);
 
