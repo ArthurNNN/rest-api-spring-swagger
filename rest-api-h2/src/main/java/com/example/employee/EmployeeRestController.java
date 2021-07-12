@@ -13,11 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/webapi")
+@RequestMapping("/")
 public class EmployeeRestController {
 
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+	@GetMapping("/")
+	public String getHome() {
+		return "home.html";
+	}
+	
 
 	// ---------------------- crud: READ -------------------------------------------
 	// -----------------------------------------------------------------------------
