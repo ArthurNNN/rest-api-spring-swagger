@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.employee.error.EmployeeNotFoundException;
+
 
 @RestController
 @Validated
@@ -38,14 +40,8 @@ public class EmployeeRestController {
 	@GetMapping("/getEmployee/{id}")
 	public Employee findById(@Valid @PathVariable @Min(1) int id) {
 
-		Optional<Employee> employeeFound = employeeRepository.findById(id);
-
-		if (employeeFound.isPresent()) {
-
-			return employeeFound.get();
-		}
-
-		return null;
+		return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
 	}
 
 	// ---------------------- crud: DELETE (by Id) -------------------------------
@@ -58,6 +54,8 @@ public class EmployeeRestController {
 		if (employeeFound.isPresent()) {
 
 			employeeRepository.deleteById(id);
+		} else {
+			throw new EmployeeNotFoundException(id);
 		}
 
 	}
@@ -98,6 +96,8 @@ public class EmployeeRestController {
 				employeeFound.get().setMonthSalary(employee.getMonthSalary());
 
 			employeeRepository.save(employeeFound.get());
+		} else {
+			throw new EmployeeNotFoundException(id);
 		}
 	}
 
