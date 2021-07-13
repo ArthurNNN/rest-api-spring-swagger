@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.employee.error.EmployeeNotFoundException;
 
-
 @RestController
 @Validated
 @RequestMapping("/webapi")
@@ -27,9 +26,17 @@ public class EmployeeRestController {
 	@Autowired
 	EmployeeRepository employeeRepository;
 
+	// ---------------------- crud: CREATE (by Id) -------------------------------
+	// ---------------------------------------------------------------------------
+	@PostMapping(path = "/addEmployee", consumes = "application/json")
+	public void addEmployee(@Valid @RequestBody Employee employee) {
+
+		employeeRepository.save(employee);
+	}
+
 	// ---------------------- crud: READ -------------------------------------------
 	// -----------------------------------------------------------------------------
-	@GetMapping("/allEmployees")
+	@GetMapping("/getAllEmployees")
 	public Iterable<Employee> getAllEnployees() {
 
 		return employeeRepository.findAll();
@@ -40,32 +47,7 @@ public class EmployeeRestController {
 	@GetMapping("/getEmployee/{id}")
 	public Employee findById(@Valid @PathVariable @Min(1) int id) {
 
-		return employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(id));
-	}
-
-	// ---------------------- crud: DELETE (by Id) -------------------------------
-	// ----------------------------------------------------------------------------
-	@DeleteMapping("/deleteEmployee/{id}")
-	public void deleteEmployee(@Valid @PathVariable @Min(1) int id) {
-
-		Optional<Employee> employeeFound = employeeRepository.findById(id);
-
-		if (employeeFound.isPresent()) {
-
-			employeeRepository.deleteById(id);
-		} else {
-			throw new EmployeeNotFoundException(id);
-		}
-
-	}
-
-	// ---------------------- crud: CREATE (by Id) -------------------------------
-	// ---------------------------------------------------------------------------
-	@PostMapping(path = "/addEmployee", consumes = "application/json")
-	public void addEmployee(@RequestBody Employee employee) {
-
-		employeeRepository.save(employee);
+		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
 	}
 
 	// ---------------------- crud: UPADATE (by Id) -------------------------------
@@ -85,7 +67,7 @@ public class EmployeeRestController {
 
 			if (employee.getAge() != employeeFound.get().getAge())
 				employeeFound.get().setAge(employee.getAge());
-			
+
 			if (!employee.getBloodType().equals(employeeFound.get().getBloodType()))
 				employeeFound.get().setBloodType(employee.getBloodType());
 
@@ -99,6 +81,30 @@ public class EmployeeRestController {
 		} else {
 			throw new EmployeeNotFoundException(id);
 		}
+	}
+
+	// ---------------------- crud: DELETE all -------------------------------
+	@DeleteMapping("/deleteAllEmployees")
+	public void deleteAllEmployees() {
+
+		employeeRepository.deleteAll();
+
+	}
+
+	// ---------------------- crud: DELETE (by Id) -------------------------------
+	// ----------------------------------------------------------------------------
+	@DeleteMapping("/deleteEmployee/{id}")
+	public void deleteEmployee(@Valid @PathVariable @Min(1) int id) {
+
+		Optional<Employee> employeeFound = employeeRepository.findById(id);
+
+		if (employeeFound.isPresent()) {
+
+			employeeRepository.deleteById(id);
+		} else {
+			throw new EmployeeNotFoundException(id);
+		}
+
 	}
 
 }

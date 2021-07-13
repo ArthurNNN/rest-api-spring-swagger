@@ -1,13 +1,15 @@
 package com.example.employee;
 
-
 import java.util.Optional;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.javafaker.Faker;
 
@@ -27,7 +29,7 @@ public class EmployeeController {
 	}
 
 	@RequestMapping("/fillIn10Employees")
-	public String fillAllEmployees(Model boxToView) {
+	public String fillIn10Employees(Model boxToView) {
 
 		addFakeEmployees(10);
 
@@ -36,31 +38,22 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 
-		// -----------------------delete----------------------------------
-	@RequestMapping("/deleteEmployee")
-	public String removeEmployee(int id, Model model) {
+	// -----------------------read by Id----------------------------------
+	@RequestMapping("/detailEmployee")
+	public String detailEmpoyee(int id, Model model) {
 
-		System.out.println("inside removeEmployee" + id);
-		Optional<Employee> employeeFound = employeeRepository.findById(id);
-
-		System.out.println("find inside removeEmployee" + employeeFound.get());
+		Optional<Employee> employeeFound = findOneEmployeeById(id);
 
 		if (employeeFound.isPresent()) {
 
-			employeeRepository.deleteById(id);
-			model.addAttribute("message", "done");
-			model.addAttribute("employeeDeleted", employeeFound.get());
+			model.addAttribute("employeefromController", employeeFound.get());
+			return "detailemployee";
 		}
 
-		else {
-			model.addAttribute("message", "error");
-		}
-
-		System.out.println("finishing removeEmployee" + id);
-		return "deletedemployee";
+		else
+			return "notfound.html";
 	}
 
-	// -----------------------update----------------------------------
 	@RequestMapping("/updateEmployee")
 	public String updateEmpoyee(int id, Model model) {
 
@@ -76,6 +69,7 @@ public class EmployeeController {
 			return "notfound.html";
 	}
 
+	// -----------------------update by Id----------------------------------
 	@PostMapping("/replaceEmployee/{idFromView}")
 	public String replaceEmployee(@PathVariable("idFromView") int id, Employee employee) {
 
@@ -106,27 +100,44 @@ public class EmployeeController {
 
 	}
 
-	// -----------------------detail----------------------------------
-	@RequestMapping("/detailEmployee")
-	public String detailEmpoyee(int id, Model model) {
+	// -----------------------delete----------------------------------
+	@RequestMapping("/deleteEmployee")
+	public String removeEmployee(int id, Model model) {
 
-		Optional<Employee> employeeFound = findOneEmployeeById(id);
+		System.out.println("inside removeEmployee" + id);
+		Optional<Employee> employeeFound = employeeRepository.findById(id);
+
+		System.out.println("find inside removeEmployee" + employeeFound.get());
 
 		if (employeeFound.isPresent()) {
 
-			model.addAttribute("employeefromController", employeeFound.get());
-			return "detailemployee";
+			employeeRepository.deleteById(id);
+			model.addAttribute("message", "done");
+			model.addAttribute("employeeDeleted", employeeFound.get());
 		}
 
-		else
-			return "notfound.html";
+		else {
+			model.addAttribute("message", "error");
+		}
+
+		System.out.println("finishing removeEmployee" + id);
+		return "deletedemployee";
+	}
+
+	@RequestMapping("/deleteAllEmployees")
+	public String deleteAllEmployees() {
+
+		employeeRepository.deleteAll();
+
+		return "redirect:/";
+
 	}
 
 	// --------------------------------------------------------------------------------
 	// ------------------------- service to controller
 	// --------------------------------
 	// --------------------------------------------------------------------------------
-	
+
 	protected void addFakeEmployees(int qt) {
 		Faker faker = new Faker();
 
@@ -137,12 +148,12 @@ public class EmployeeController {
 			employee.setName(faker.name().firstName());
 			employee.setSurname(faker.name().lastName());
 			employee.setAge((int) ((Math.random() * (130 - 18)) + 18));
-			
-			String[] bloodTypeList = new String[]{ "I","II","III","IV"}; 
-		    Random rand = new Random();
-		    String randomBloodType = bloodTypeList[rand.nextInt(bloodTypeList.length)];
+
+			String[] bloodTypeList = new String[] { "I", "II", "III", "IV" };
+			Random rand = new Random();
+			String randomBloodType = bloodTypeList[rand.nextInt(bloodTypeList.length)];
 			employee.setBloodType(randomBloodType);
-			
+
 			employee.setEmail(faker.internet().emailAddress());
 			employee.setMonthSalary((int) ((Math.random() * (10000 - 0)) + 0));
 
@@ -153,7 +164,6 @@ public class EmployeeController {
 
 		}
 	}
-	
 
 	public Optional<Employee> findOneEmployeeById(int id) {
 

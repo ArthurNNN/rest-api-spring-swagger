@@ -12,18 +12,21 @@
 	<h3 class="w3-center ">swagger-ui:</h3>
 	<h3 class="w3-center ">
 		<a
-			href="http://rest-api-spring-swagger.herokuapp.com/swagger-ui.html#/">../swagger-ui.html#/</a>
+			href="../swagger-ui.html#/">../swagger-ui.html#/</a>
 	</h3>
 	<h3 class="w3-center ">Database console:</h3>
 	<h3 class="w3-center ">
-		<a href="http://rest-api-spring-swagger.herokuapp.com/h2">../h2</a>
+		<a href="../h2">../h2</a>
 		<h3 class="w3-center ">jdbc:h2:mem:testapidb</h3>
 
 		<div class="w3-panel w3-padding-32 w3-center">
 
 			<a th:href="@{fillIn10Employees}" class="w3-button w3-teal w3-center">fillIn10Employees</a>
-			<h3>Table of employee from BD H2</h3>
+			
 
+			<a th:href="@{deleteAllEmployees}" class="w3-button w3-teal w3-center">deleteAllEmployees</a>
+			
+			<h3>Table of employee from BD H2</h3>
 			<table class="w3-table-all">
 
 				<tr class="w3-black w3-hover-teal">
