@@ -26,9 +26,10 @@
 
 			<br>
 			<p th:text="'employeeId: '+${employee.id}"></p>
+			<p th:text="'age: '+${employee.age}"></p>
+			<p th:text="'bloodType: '+${employee.bloodType}"></p>
 			<p th:text="'email: '+${employee.email}"></p>
-			<p th:text="${employee.age}"></p>
-			<p th:text="${employee.monthSalary}"></p>
+			<p th:text="'monthSalary: '+${employee.monthSalary}"></p>
 			<hr>
 			<div class="w3-container w3-center">
 				<a th:href="@{deleteEmployee(id=${employee.id})}"

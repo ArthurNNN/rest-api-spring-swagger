@@ -1,7 +1,8 @@
 package com.example.employee;
 
-import java.util.Optional;
 
+import java.util.Optional;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,31 +29,14 @@ public class EmployeeController {
 	@RequestMapping("/fillIn10Employees")
 	public String fillAllEmployees(Model boxToView) {
 
-		Faker faker = new Faker();
-
-		System.out.print("\n---------------- Add employees: ----------------");
-		int n = 1;
-		while (n <= 10) {
-			Employee employee = new Employee();
-			employee.setName(faker.name().firstName());
-			employee.setSurname(faker.name().lastName());
-			employee.setAge((int) ((Math.random() * (100 - 1)) + 1));
-			employee.setEmail(faker.internet().emailAddress());
-			employee.setMonthSalary((int) ((Math.random() * (100000 - 0)) + 0));
-
-			employeeRepository.save(employee);
-			System.out.print("\n#" + n + " ");
-			System.out.print(employee);
-			n++;
-
-		}
+		addFakeEmployees(10);
 
 		boxToView.addAttribute("employeeListfromControllerAndDB", employeeRepository.findAll());
 
 		return "redirect:/";
 	}
 
-	// -----------------------delete----------------------------------
+		// -----------------------delete----------------------------------
 	@RequestMapping("/deleteEmployee")
 	public String removeEmployee(int id, Model model) {
 
@@ -75,7 +59,6 @@ public class EmployeeController {
 		System.out.println("finishing removeEmployee" + id);
 		return "deletedemployee";
 	}
-
 
 	// -----------------------update----------------------------------
 	@RequestMapping("/updateEmployee")
@@ -108,10 +91,12 @@ public class EmployeeController {
 //					employeeFound.get().setPassword(employee.getPassword());
 			if (employee.getEmail() != null)
 				employeeFound.get().setEmail(employee.getEmail());
-				if (employee.getAge() != 0)
-					employeeFound.get().setAge(employee.getAge());
-				if (employee.getMonthSalary() != 0.0)
-					employeeFound.get().setMonthSalary(employee.getMonthSalary());
+			if (employee.getAge() != 0)
+				employeeFound.get().setAge(employee.getAge());
+			if (employee.getBloodType() != null)
+				employeeFound.get().setBloodType(employee.getBloodType());
+			if (employee.getMonthSalary() != 0.0)
+				employeeFound.get().setMonthSalary(employee.getMonthSalary());
 
 			employeeRepository.save(employeeFound.get());
 			return "redirect:/";
@@ -141,6 +126,34 @@ public class EmployeeController {
 	// ------------------------- service to controller
 	// --------------------------------
 	// --------------------------------------------------------------------------------
+	
+	protected void addFakeEmployees(int qt) {
+		Faker faker = new Faker();
+
+		System.out.print("\n---------------- Add employees: ----------------");
+		int n = 1;
+		while (n <= qt) {
+			Employee employee = new Employee();
+			employee.setName(faker.name().firstName());
+			employee.setSurname(faker.name().lastName());
+			employee.setAge((int) ((Math.random() * (130 - 18)) + 18));
+			
+			String[] bloodTypeList = new String[]{ "I","II","III","IV"}; 
+		    Random rand = new Random();
+		    String randomBloodType = bloodTypeList[rand.nextInt(bloodTypeList.length)];
+			employee.setBloodType(randomBloodType);
+			
+			employee.setEmail(faker.internet().emailAddress());
+			employee.setMonthSalary((int) ((Math.random() * (10000 - 0)) + 0));
+
+			employeeRepository.save(employee);
+			System.out.print("\n#" + n + " ");
+			System.out.print(employee);
+			n++;
+
+		}
+	}
+	
 
 	public Optional<Employee> findOneEmployeeById(int id) {
 

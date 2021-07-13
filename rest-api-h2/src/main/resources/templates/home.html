@@ -24,6 +24,7 @@
 				<td>name</td>
 				<td>surname</td>
 				<td>age</td>
+				<td>bloodType</td>
 				<td>email</td>
 				<td>monthSalary</td>
 				<td>operations</td>
@@ -35,6 +36,7 @@
 				<td th:text="${employee.name}"></td>
 				<td th:text="${employee.surname}"></td>
 				<td th:text="${employee.age}"></td>
+				<td th:text="${employee.bloodType}"></td>
 				<td th:text="${employee.email}"></td>
 				<td th:text="${employee.monthSalary}"></td>
 				<td><a th:href="@{deleteEmployee(id=${employee.id})}"

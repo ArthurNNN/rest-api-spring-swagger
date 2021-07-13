@@ -6,7 +6,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +36,7 @@ public class EmployeeRestController {
 	// ---------------------- crud: READ (by Id) ---------------------------------
 	// ---------------------------------------------------------------------------
 	@GetMapping("/getEmployee/{id}")
-	public Employee findById(@PathVariable @Min(1) int id) {
+	public Employee findById(@Valid @PathVariable @Min(1) int id) {
 
 		Optional<Employee> employeeFound = employeeRepository.findById(id);
 
@@ -52,7 +51,7 @@ public class EmployeeRestController {
 	// ---------------------- crud: DELETE (by Id) -------------------------------
 	// ----------------------------------------------------------------------------
 	@DeleteMapping("/deleteEmployee/{id}")
-	public void deleteEmployee(@PathVariable @Min(1) int id) {
+	public void deleteEmployee(@Valid @PathVariable @Min(1) int id) {
 
 		Optional<Employee> employeeFound = employeeRepository.findById(id);
 
@@ -66,7 +65,7 @@ public class EmployeeRestController {
 	// ---------------------- crud: CREATE (by Id) -------------------------------
 	// ---------------------------------------------------------------------------
 	@PostMapping(path = "/addEmployee", consumes = "application/json")
-	public void addEmployee(@Valid @RequestBody Employee employee) {
+	public void addEmployee(@RequestBody Employee employee) {
 
 		employeeRepository.save(employee);
 	}
@@ -88,6 +87,9 @@ public class EmployeeRestController {
 
 			if (employee.getAge() != employeeFound.get().getAge())
 				employeeFound.get().setAge(employee.getAge());
+			
+			if (!employee.getBloodType().equals(employeeFound.get().getBloodType()))
+				employeeFound.get().setBloodType(employee.getBloodType());
 
 			if (!employee.getEmail().equals(employeeFound.get().getEmail()))
 				employeeFound.get().setEmail(employee.getEmail());

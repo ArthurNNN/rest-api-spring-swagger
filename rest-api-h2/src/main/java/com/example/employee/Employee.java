@@ -5,11 +5,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.example.employee.error.validator.BloodType;
 
 @Entity
 @Table
@@ -21,34 +24,38 @@ public class Employee {
 	
     @NotBlank(message = "Name is mandatory")
 	@Size(min=2, max=30)
-	public String name;
+    private String name;
     
     @NotBlank(message = "Surname is mandatory")
 	@Size(min=2, max=30)
-	public String surname;
+    private String surname;
     
-	@NotNull
-	@Min(0)
-	@Max(130)
-	public int age;
+    @Min(value = 18, message = "Age should not be less than 18")
+    @Max(value = 150, message = "Age should not be greater than 150")
+    private int age;
+    
+    @BloodType
+    @NotEmpty(message = "Please provide a BloodType")
+    private String bloodType;
 	
-	@NotBlank(message = "Email is mandatory")
-	public String email;
+    @Email(message = "Email should be valid")
+    private String email;
 	
-	@Min(0)
-	@Max(1000000)
-	public double monthSalary;
+    @Min(value = 1, message = "MonthSalary should not be less than 1")
+    @Max(value = 1000000, message = "MonthSalary should not be greater than 1000000")
+    private double monthSalary;
 
 	public Employee() {
 		super();
 	}
 
-	public Employee(String name, String surname, int age, String email, double monthSalary) {
+	public Employee(String name, String surname, int age, String bloodType, String email, double monthSalary) {
 		super();
 
 		this.name = name;
 		this.surname = surname;
 		this.age = age;
+		this.bloodType = bloodType;
 		this.email = email;
 		this.monthSalary = monthSalary;
 
@@ -102,9 +109,18 @@ public class Employee {
 		this.monthSalary = monthSalary;
 	}
 
+	public String getBloodType() {
+		return bloodType;
+	}
+
+	public void setBloodType(String bloodType) {
+		this.bloodType = bloodType;
+	}
+
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", surname=" + surname + ", age=" + age + ", email=" + email
-				+ ", monthSalary=" + monthSalary + "]\n";
+		return "Employee [id=" + id + ", name=" + name + ", surname=" + surname + ", age=" + age + ", bloodType="
+				+ bloodType + ", email=" + email + ", monthSalary=" + monthSalary + "]";
 	}
+
 }
