@@ -1,71 +1,57 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>TEST PROJECT EMPLOYEE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
 <body>
 	<h1 class="w3-center w3-gray">TEST PROJECT EMPLOYEE</h1>
 	<h3 class="w3-center ">swagger-ui:</h3>
 	<h3 class="w3-center ">
-		<a
-			href="../swagger-ui.html#/">../swagger-ui.html#/</a>
+		<a href="../swagger-ui.html#/">../swagger-ui.html#/</a>
 	</h3>
 	<h3 class="w3-center ">Database console:</h3>
-	<h3 class="w3-center ">
-		<a href="../h2">../h2</a>
-		<h3 class="w3-center ">jdbc:h2:mem:testapidb</h3>
-
-		<div class="w3-panel w3-padding-32 w3-center">
-
-			<a th:href="@{fillIn10Employees}" class="w3-button w3-teal w3-center">fillIn10Employees</a>
-			
-
-			<a th:href="@{deleteAllEmployees}" class="w3-button w3-teal w3-center">deleteAllEmployees</a>
-			
-			<h3>Table of employee from BD H2</h3>
-			<table class="w3-table-all">
-
-				<tr class="w3-black w3-hover-teal">
-					<td>id</td>
-					<td>name</td>
-					<td>surname</td>
-					<td>age</td>
-					<td>bloodType</td>
-					<td>email</td>
-					<td>monthSalary</td>
-					<td>operations</td>
-				</tr>
-
-				<tr th:each="employee:${employeeListfromControllerAndDB}">
-
-					<td th:text="${employee.id}"></td>
-					<td th:text="${employee.name}"></td>
-					<td th:text="${employee.surname}"></td>
-					<td th:text="${employee.age}"></td>
-					<td th:text="${employee.bloodType}"></td>
-					<td th:text="${employee.email}"></td>
-					<td th:text="${employee.monthSalary}"></td>
-					<td><a th:href="@{deleteEmployee(id=${employee.id})}"
-						class="w3-button w3-red">Delete</a> <a
-						th:href="@{detailEmployee(id=${employee.id})}"
-						class="w3-button w3-teal">Detail</a> <a
-						th:href="@{updateEmployee(id=${employee.id})}"
-						class="w3-button w3-blue">Update</a></td>
-
-				</tr>
-			</table>
+	<a href="../h2">../h2</a>
+	<h3 class="w3-center ">jdbc:h2:mem:testapidb</h3>
+	<div class="w3-panel w3-padding-32 w3-center">
+		<a th:href="@{fillIn10Employees}" class="w3-button w3-teal w3-center">fillIn10Employees</a>
+		<a th:href="@{deleteAllEmployees}" class="w3-button w3-teal w3-center">deleteAllEmployees</a>
+		<h3>Table of employee from BD H2</h3>
+		<table class="w3-table-all">
+			<tr class="w3-black w3-hover-teal">
+				<td>id</td>
+				<td>name</td>
+				<td>surname</td>
+				<td>age</td>
+				<td>bloodType</td>
+				<td>email</td>
+				<td>monthSalary</td>
+				<td>operations</td>
+			</tr>
+			<tr th:each="employee:${employeeListfromControllerAndDB}">
+				<td th:text="${employee.id}"></td>
+				<td th:text="${employee.name}"></td>
+				<td th:text="${employee.surname}"></td>
+				<td th:text="${employee.age}"></td>
+				<td th:text="${employee.bloodType}"></td>
+				<td th:text="${employee.email}"></td>
+				<td th:text="${employee.monthSalary}"></td>
+				<td>
+					<a th:href="@{deleteEmployee(id=${employee.id})}" class="w3-button w3-red">Delete</a>
+					<a th:href="@{detailEmployee(id=${employee.id})}" class="w3-button w3-teal">Detail</a>
+					<a th:href="@{updateEmployee(id=${employee.id})}" class="w3-button w3-blue">Update</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<footer>
+		<div class="footer">
+			<!-- 			<p>2021 Java Spring with Swagger. All rights reserved.</p> -->
 		</div>
-
-
-
-		<footer>
-			<div class="footer">
-				<!-- 			<p>2021 Java Spring with Swagger. All rights reserved.</p> -->
-			</div>
-		</footer>
+	</footer>
 </body>
 </html>
