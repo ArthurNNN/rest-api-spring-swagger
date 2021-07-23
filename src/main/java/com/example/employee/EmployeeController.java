@@ -74,27 +74,31 @@ public class EmployeeController {
 
 		if (employeeFound.isPresent()) {
 
-			if (employee.getName() != null)
+			if (employee.getName() != null) {
 				employeeFound.get().setName(employee.getName());
-			if (employee.getSurname() != null)
+			}
+			if (employee.getSurname() != null) {
 				employeeFound.get().setSurname(employee.getSurname());
-//				if (employee.getPassword() != null)
-//					employeeFound.get().setPassword(employee.getPassword());
-			if (employee.getEmail() != null)
+			}
+			if (employee.getEmail() != null) {
 				employeeFound.get().setEmail(employee.getEmail());
-			if (employee.getAge() != 0)
+			}
+			if (employee.getAge() != 0) {
 				employeeFound.get().setAge(employee.getAge());
-			if (employee.getBloodType() != null)
+			}
+			if (employee.getBloodType() != null) {
 				employeeFound.get().setBloodType(employee.getBloodType());
-			if (employee.getMonthSalary() != 0.0)
+			}
+			if (employee.getMonthSalary() != 0.0) {
 				employeeFound.get().setMonthSalary(employee.getMonthSalary());
+			}
 
 			employeeRepository.save(employeeFound.get());
 			return "redirect:/";
 
-		} else
+		} else {
 			return "notfound.html";
-
+		}
 	}
 
 	// -----------------------delete----------------------------------
@@ -107,13 +111,10 @@ public class EmployeeController {
 		System.out.println("find inside removeEmployee" + employeeFound.get());
 
 		if (employeeFound.isPresent()) {
-
 			employeeRepository.deleteById(id);
 			model.addAttribute("message", "done");
 			model.addAttribute("employeeDeleted", employeeFound.get());
-		}
-
-		else {
+		} else {
 			model.addAttribute("message", "error");
 		}
 
@@ -132,7 +133,6 @@ public class EmployeeController {
 
 	// --------------------------------------------------------------------------------
 	// ------------------------- service to controller
-	// --------------------------------
 	// --------------------------------------------------------------------------------
 
 	protected void addFakeEmployees(int qt) {
@@ -158,17 +158,11 @@ public class EmployeeController {
 			System.out.print("\n#" + n + " ");
 			System.out.print(employee);
 			n++;
-
 		}
 	}
 
 	public Optional<Employee> findOneEmployeeById(int id) {
-
-		// System.out.println("inside findEmployee" + id);
 		Optional<Employee> employeeFound = employeeRepository.findById(id);
-		// System.out.println("finishing findEmployee" + id);
-		// System.out.println("finishing findEmployee" + employeeFound.get());
 		return employeeFound;
 	}
-
 }

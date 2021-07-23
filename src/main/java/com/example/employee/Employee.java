@@ -46,7 +46,6 @@ public class Employee {
     private double monthSalary;
 
 	public Employee() {
-		super();
 	}
 
 	public Employee(String name, String surname, int age, String bloodType, String email, double monthSalary) {
@@ -58,7 +57,6 @@ public class Employee {
 		this.bloodType = bloodType;
 		this.email = email;
 		this.monthSalary = monthSalary;
-
 	}
 
 	public int getId() {

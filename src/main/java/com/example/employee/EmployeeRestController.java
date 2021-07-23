@@ -26,32 +26,23 @@ public class EmployeeRestController {
 	@Autowired
 	EmployeeRepository employeeRepository;
 
-	// ---------------------- crud: CREATE (by Id) -------------------------------
-	// ---------------------------------------------------------------------------
 	@PostMapping(path = "/addEmployee", consumes = "application/json")
 	public void addEmployee(@Valid @RequestBody Employee employee) {
-
 		employeeRepository.save(employee);
 	}
 
-	// ---------------------- crud: READ -------------------------------------------
-	// -----------------------------------------------------------------------------
 	@GetMapping("/getAllEmployees")
-	public Iterable<Employee> getAllEnployees() {
+	public Iterable<Employee> getAllEmployees() {
 
 		return employeeRepository.findAll();
 	}
 
-	// ---------------------- crud: READ (by Id) ---------------------------------
-	// ---------------------------------------------------------------------------
 	@GetMapping("/getEmployee/{id}")
 	public Employee findById(@Valid @PathVariable @Min(1) int id) {
 
 		return employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
 	}
 
-	// ---------------------- crud: UPADATE (by Id) -------------------------------
-	// ----------------------------------------------------------------------------
 	@PutMapping("/updateEmployee/{id}")
 	public void updateEmployee(@Valid @RequestBody Employee employee, @PathVariable @Min(1) int id) {
 
@@ -83,28 +74,20 @@ public class EmployeeRestController {
 		}
 	}
 
-	// ---------------------- crud: DELETE all -------------------------------
 	@DeleteMapping("/deleteAllEmployees")
 	public void deleteAllEmployees() {
-
 		employeeRepository.deleteAll();
-
 	}
 
-	// ---------------------- crud: DELETE (by Id) -------------------------------
-	// ----------------------------------------------------------------------------
 	@DeleteMapping("/deleteEmployee/{id}")
 	public void deleteEmployee(@Valid @PathVariable @Min(1) int id) {
 
 		Optional<Employee> employeeFound = employeeRepository.findById(id);
 
 		if (employeeFound.isPresent()) {
-
 			employeeRepository.deleteById(id);
 		} else {
 			throw new EmployeeNotFoundException(id);
 		}
-
 	}
-
 }
